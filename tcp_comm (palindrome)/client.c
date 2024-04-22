@@ -9,10 +9,7 @@
 int main() {
     struct sockaddr_in client;
     int cs;
-    char s[20];
-
-    printf("Enter the message: ");
-    gets(s);
+    char buffer[20];
 
     cs = socket(AF_INET, SOCK_STREAM, 0);
     if (cs < 0) {
@@ -21,7 +18,7 @@ int main() {
     }
 
     client.sin_family = AF_INET;
-    client.sin_addr.s_addr = INADDR_ANY;
+    client.sin_addr.s_addr = inet_addr("127.0.0.1");
     client.sin_port = htons(9145);
 
     if (connect(cs, (struct sockaddr *)&client, sizeof(client)) < 0) {
@@ -30,7 +27,19 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    send(cs, s, strlen(s), 0);
+    printf("Enter the string to check: ");
+    scanf("%s", buffer);
+
+    send(cs, buffer, strlen(buffer), 0);
+
+    int flag;
+    recv(cs, &flag, sizeof(int), 0);
+
+    if (flag == 1)
+        printf("Palindrome\n");
+    else
+        printf("Not palindrome\n");
+
     close(cs);
     return 0;
 }
