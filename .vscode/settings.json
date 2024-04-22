@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.rmd": "markdown",
+        "socket.h": "c",
+        "stdlib.h": "c"
+    }
+}
